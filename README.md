@@ -1,54 +1,30 @@
-# PayPhone 2077
+# PayPhone 2077 — исправленная версия
 
-**An interactive map of public payphones across Russia.**
+## Состав
 
-PayPhone 2077 is an independent project dedicated to mapping payphone locations across Russia and documenting a disappearing part of the country's telecommunications infrastructure.
+- `index.html` — интерфейс атласа.
+- `style.css` — оформление.
+- `script.js` — чтение PDF, реестр, карта и рейтинг субъектов.
 
-The project combines geographic data, an interactive map, and an interest in the physical infrastructure that once connected people across cities, towns, and remote areas.
+## Запуск в Windows
 
-## Why this project?
+1. Распакуйте архив в новую папку.
+2. Откройте терминал в этой папке.
+3. Выполните `py -m http.server 8000`.
+4. Откройте `http://localhost:8000`.
 
-Public payphones are an overlooked part of everyday technological history. As telecommunications infrastructure changes, documenting their locations helps preserve a record of what remains.
+Если `py` не распознаётся, попробуйте `python -m http.server 8000`.
 
-PayPhone 2077 started as a personal project to collect, organize, and visualize payphone location data in one place.
+## Поведение
 
-## Current features
+- В секции 02 нет сортировок: записи остаются в порядке исходного PDF.
+- Таблица показывает первые 10 записей; кнопка раскрывает все записи текущего субъекта РФ.
+- Единственный фильтр — субъект РФ.
+- Секция 04 всегда отображает рейтинг всех найденных субъектов по убыванию числа записей. Рейтинг не меняется при выборе фильтра в секции 02.
+- Номер телефона извлекается отдельно; распознаются номера с `8`, `+7` и десятизначный формат только в колонке абонентского номера.
 
-- **Interactive map** — explore documented payphone locations geographically.
-- **Location data** — browse available records associated with mapped payphones.
-- **Data exploration** — work with the available records through the map interface.
+## Важное про PDF
 
-The project is a work in progress. Coverage, data quality, and functionality may vary as the dataset and interface evolve.
+Парсер определяет шесть колонок по координатам заголовков в PDF и не делит строку запятыми. Это предотвращает сдвиг значений между «Поселением», «Населённым пунктом» и «Адресом размещения». На страницах без повторённых заголовков используется найденная ранее геометрия таблицы. Иерархические поля могут заполняться вниз, если в PDF ячейки визуально объединены; адрес не заполняется предположениями.
 
-## Data and accuracy
-
-The map is an independent project, not an official directory of telecommunications infrastructure.
-
-Locations may be incomplete, outdated, or awaiting verification. A point on the map does not necessarily mean that a payphone is still present or operational.
-
-Data sources, attribution requirements, and verification status should be documented as the dataset develops.
-
-## Running locally
-
-1. Clone or download this repository.
-2. Open the project's main HTML file in a modern web browser.
-3. Explore the available map and location data.
-
-Some resources or features may require an internet connection, depending on the current implementation.
-
-## Roadmap
-
-- Expand the collection of documented payphone locations.
-- Improve data quality and location verification.
-- Improve map navigation and data exploration.
-- Document data sources and the technical details of the project.
-
-## License
-
-The source code is intended to be released under the **MIT License**.
-
-The dataset and third-party resources may be subject to separate licensing and attribution requirements. See the relevant license and source documentation before redistributing them.
-
----
-
-*PayPhone 2077 — documenting the infrastructure that connected us.*
+В этой переписке исходный PDF не был приложен, поэтому извлечение проверено на синтетических строках с координатами колонок, а не на всех страницах исходного документа. После запуска рекомендуется проверить несколько строк в начале, середине и конце PDF.

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPhone 2077 · Атлас таксофонной сети</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/russiaLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/plugins/exporting.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PayPhone 2077 · Атлас таксофонной сети</h1>
+        </header>
+
+        <section class="section" id="section1">
+            <div class="section-header collapsible-header" onclick="toggleSection('section1')">
+                <div>
+                    <div class="section-number">01 / Загрузка и извлечение</div>
+                    <div class="section-subtitle">Один PDF. Проверяемые строки.</div>
+                </div>
+                <span class="collapse-toggle" id="toggle1">▼</span>
+            </div>
+            <div class="collapsible-content" id="content1">
+                <div class="upload-info"><strong>PDF / ДО 647 СТРАНИЦ</strong></div>
+                <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="Выбрать PDF-файл">
+                    <h3>Перетащите PDF в поле загрузки</h3>
+                    <p>или нажмите для выбора файла</p>
+                    <input type="file" id="fileInput" accept=".pdf,application/pdf" hidden>
+                </div>
+                <div class="upload-actions">
+                    <button type="button" class="btn btn-danger" id="deleteBtn" style="display:none;">Удалить PDF</button>
+                    <span class="progress-info" id="progressInfo">Ожидается PDF.</span>
+                </div>
+                <div class="warning-box">Данные хранятся в текущей вкладке. Не загружайте конфиденциальные документы.</div>
+            </div>
+        </section>
+
+        <section class="section" id="section2">
+            <div class="section-header collapsible-header" onclick="toggleSection('section2')">
+                <div><div class="section-number">02 / Реестр таксофонов</div></div>
+                <span class="collapse-toggle" id="toggle2">▼</span>
+            </div>
+            <div class="collapsible-content" id="content2">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Всего записей</div>
+                        <div class="metric-value" id="totalRows">0</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Субъектов РФ</div>
+                        <div class="metric-value" id="uniqueRegions">0</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Муниципальных образований</div>
+                        <div class="metric-value" id="uniqueMunicipalities">0</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Поселений</div>
+                        <div class="metric-value" id="uniqueSettlements">0</div>
+                    </div>
+                </div>
+
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="filterRegion">Субъект РФ</label>
+                        <select id="filterRegion">
+                            <option value="">Все субъекты РФ</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button type="button" class="btn" id="applyFilters">Применить</button>
+                    <button type="button" class="btn" id="resetFilters">Сбросить</button>
+                </div>
+                <div class="results-info">Показано <span id="resultsCount">0</span> из <span id="totalFiltered">0</span> строк</div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Субъект РФ</th>
+                                <th>Муниципальное образование</th>
+                                <th>Поселение</th>
+                                <th>Населённый пункт</th>
+                                <th>Адрес размещения</th>
+                                <th>Абонентский номер</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="6" class="empty-table-cell">Загрузите PDF в секции 01</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-expand-controls">
+                    <button type="button" class="btn" id="toggleTableBtn" onclick="toggleTableExpand()" hidden>Показать все строки</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="section3">
+            <div class="section-header collapsible-header" onclick="toggleSection('section3')">
+                <div><div class="section-number">03 / Распределение по субъектам</div></div>
+                <span class="collapse-toggle" id="toggle3">▼</span>
+            </div>
+            <div class="collapsible-content" id="content3">
+                <div class="map-actions">
+                    <button type="button" class="btn btn-primary" id="downloadMap">⬇ Скачать карту PNG</button>
+                    <span class="map-hint">Нажмите на регион для фильтрации таблицы</span>
+                </div>
+                <div class="map-container"><div id="russiaMap" aria-label="Карта распределения таксофонов по регионам"></div></div>
+             <div class="legend">
+    <div class="legend-item"><div class="legend-box" style="background:#F3F4F6;"></div><span>0</span></div>
+    <div class="legend-item"><div class="legend-box" style="background:#BFDBFE;"></div><span>1–150</span></div>
+    <div class="legend-item"><div class="legend-box" style="background:#60A5FA;"></div><span>151–350</span></div>
+    <div class="legend-item"><div class="legend-box" style="background:#2563EB;"></div><span>351–600</span></div>
+    <div class="legend-item"><div class="legend-box" style="background:#1E3A8A;"></div><span>601+</span></div>
+</div>
+            </div>
+        </section>
+
+        <section class="section" id="section4">
+            <div class="section-header collapsible-header" onclick="toggleSection('section4')">
+                <div><div class="section-number">04 / Аналитика</div></div>
+                <span class="collapse-toggle" id="toggle4">▼</span>
+            </div>
+            <div class="collapsible-content" id="content4">
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <div class="chart-title">Рейтинг всех субъектов РФ по количеству таксофонов</div>
+                        <div id="chartRegions" class="bar-chart"><div class="chart-empty">Нет данных</div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

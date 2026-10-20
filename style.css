@@ -1,0 +1,124 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { color-scheme: light; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #FFFFFF;
+    color: #1A1A1A;
+    line-height: 1.5;
+}
+button, input, select { font: inherit; }
+button:focus-visible, input:focus-visible, select:focus-visible, .upload-zone:focus-visible {
+    outline: 3px solid #93C5FD;
+    outline-offset: 2px;
+}
+.container { width: min(100%, 1440px); margin: 0 auto; padding: 2rem; }
+header { margin-bottom: 2rem; }
+h1 { font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; }
+.section { min-width: 0; margin-bottom: 3rem; }
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #E5E7EB;
+}
+.section-header.collapsible-header {
+    width: 100%;
+    cursor: pointer;
+    user-select: none;
+    padding: 0.75rem;
+    margin: 0 0 1rem;
+    border-radius: 6px;
+}
+.section-header.collapsible-header:hover { background: #F9FAFB; }
+.collapse-toggle { margin-left: auto; flex: 0 0 auto; font-size: 1rem; color: #6B7280; transition: transform 0.15s ease; }
+.collapse-toggle.collapsed { transform: rotate(-90deg); }
+
+/* ИСПРАВЛЕНИЕ: visible позволяет select раскрываться поверх границы, hidden только при сворачивании */
+.collapsible-content { min-width: 0; overflow: visible; transition: max-height 0.25s ease, opacity 0.2s ease; max-height: 10000px; opacity: 1; }
+.collapsible-content.hidden { max-height: 0; opacity: 0; margin: 0; padding: 0; overflow: hidden; }
+
+.section-number { font-size: clamp(1.1rem, 2.5vw, 1.5rem); font-weight: 700; }
+.section-subtitle { font-size: 0.875rem; color: #6B7280; margin-top: 0.25rem; }
+.upload-info { background: #F9FAFB; padding: 1rem; border-radius: 6px; margin-bottom: 1rem; }
+.upload-zone {
+    border: 2px dashed #D1D5DB; border-radius: 8px; padding: 3rem 2rem;
+    text-align: center; cursor: pointer; background: #FAFAFA;
+}
+.upload-zone:hover { border-color: #9CA3AF; background: #F3F4F6; }
+.upload-zone.dragover { border-color: #3B82F6; background: #EFF6FF; }
+.upload-zone h3 { font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; }
+.upload-zone p { color: #6B7280; }
+.upload-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; align-items: center; }
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+    padding: 0.625rem 1.25rem; border-radius: 6px; font-weight: 500; cursor: pointer;
+    border: 1px solid #D1D5DB; background: #FFFFFF; transition: background 0.15s, border-color 0.15s;
+}
+.btn:hover { background: #F9FAFB; border-color: #9CA3AF; }
+.btn:disabled { cursor: wait; opacity: 0.65; }
+.btn-danger { color: #DC2626; border-color: #FECACA; }
+.btn-danger:hover { background: #FEF2F2; }
+.btn-primary { background: #1A1A1A; color: #FFFFFF; border-color: #1A1A1A; }
+.btn-primary:hover { background: #374151; color: #FFFFFF; }
+.progress-info { min-width: 0; font-size: 0.875rem; color: #6B7280; overflow-wrap: anywhere; }
+.warning-box { background: #FEF3C7; border: 1px solid #FCD34D; border-radius: 6px; padding: 1rem; margin-top: 1rem; color: #92400E; }
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.metric-card { min-width: 0; background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 6px; padding: 1rem; }
+.metric-label { font-size: 0.75rem; color: #6B7280; text-transform: uppercase; margin-bottom: 0.25rem; }
+.metric-value { font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 1rem; margin-bottom: 1rem; }
+.filter-group { min-width: 0; display: flex; flex-direction: column; gap: 0.375rem; }
+.filter-group label { font-size: 0.75rem; font-weight: 600; color: #6B7280; text-transform: uppercase; }
+.filter-group select, .filter-group input { min-width: 0; padding: 0.625rem; border: 1px solid #D1D5DB; border-radius: 4px; font-size: 0.875rem; width: 100%; background: #FFFFFF; }
+.filter-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+.results-info { font-size: 0.875rem; color: #6B7280; margin-bottom: 1rem; }
+
+/* ИСПРАВЛЕНИЕ: явная прокрутка для таблицы */
+.table-wrapper { width: 100%; max-width: 100%; max-height: 600px; overflow-y: auto; overflow-x: auto; border: 1px solid #E5E7EB; border-radius: 6px; }
+table { width: 100%; min-width: 1050px; border-collapse: collapse; }
+th { background: #F9FAFB; padding: 0.75rem; text-align: left; font-weight: 600; color: #6B7280; border-bottom: 2px solid #E5E7EB; white-space: nowrap; }
+td { padding: 0.75rem; border-bottom: 1px solid #E5E7EB; vertical-align: top; overflow-wrap: anywhere; }
+td.phone-cell { white-space: nowrap; overflow-wrap: normal; word-break: normal; }
+tbody tr:hover { background: #F9FAFB; }
+.empty-table-cell { text-align: center; padding: 2rem; color: #6B7280; }
+.table-expand-controls { margin-top: 1rem; text-align: center; }
+
+.map-container { width: 100%; min-width: 0; margin-bottom: 1rem; overflow: hidden; border-radius: 6px; background: #F9FAFB; }
+#russiaMap { width: 100%; height: 600px; min-width: 0; background: #F9FAFB; border-radius: 6px; }
+#russiaMap.map-error { display: flex; align-items: center; justify-content: center; min-height: 240px; padding: 2rem; color: #B91C1C; text-align: center; }
+.map-actions { display: flex; gap: 1rem; margin-bottom: 1rem; align-items: center; flex-wrap: wrap; }
+.map-hint { color: #6B7280; font-size: 0.875rem; }
+.legend { display: flex; gap: 1.25rem; padding: 1rem; background: #F9FAFB; border-radius: 6px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; }
+.legend-box { flex: 0 0 auto; width: 24px; height: 24px; border: 1px solid #D1D5DB; border-radius: 2px; }
+.charts-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+.chart-card { min-width: 0; border: 1px solid #E5E7EB; border-radius: 6px; padding: 1rem; }
+.chart-title { font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; }
+.chart-empty { color: #9CA3AF; font-style: italic; }
+.bar-chart { display: flex; flex-direction: column; gap: 0.75rem; }
+.bar-item { display: grid; grid-template-columns: minmax(130px, 1.2fr) minmax(50px, 2fr) minmax(42px, auto); align-items: center; gap: 0.75rem; min-width: 0; }
+.bar-label { min-width: 0; overflow-wrap: anywhere; }
+.bar-value { font-weight: 600; min-width: 42px; text-align: right; font-variant-numeric: tabular-nums; }
+.bar { min-width: 0; height: 20px; background: #E5E7EB; border-radius: 2px; overflow: hidden; }
+.bar-fill { height: 100%; background: #3B82F6; border-radius: 2px; }
+
+@media (max-width: 900px) {
+    .container { padding: 1.25rem; }
+    #russiaMap { height: 480px; }
+}
+@media (max-width: 600px) {
+    .container { padding: 1rem; }
+    .section { margin-bottom: 2rem; }
+    .section-header.collapsible-header { padding: 0.5rem; }
+    .upload-zone { padding: 2rem 1rem; }
+    .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .filters { grid-template-columns: minmax(0, 1fr); }
+    .map-actions { align-items: stretch; flex-direction: column; }
+    .map-actions .btn { width: 100%; }
+    #russiaMap { height: 380px; }
+    .legend { display: flex; gap: 1.25rem; padding: 1rem; background: #F9FAFB; border-radius: 6px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 0.5rem; white-space: nowrap; }
+.legend-box { flex: 0 0 auto; width: 24px; height: 24px; border: 1px solid #D1D5DB; border-radius: 2px; }
+}
