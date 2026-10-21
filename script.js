@@ -487,9 +487,44 @@ function clearRegionCounts() { Object.keys(regionCounts).forEach(key => delete r
 function rebuildRegionCounts() { clearRegionCounts(); for (const record of allRecords) { if (record.region) regionCounts[record.region] = (regionCounts[record.region] || 0) + 1; } }
 
 document.addEventListener('DOMContentLoaded', () => {
-    initAmChart(); setupUpload(); setupFilters(); setupMapDownload(); renderTable(); updateAnalytics();
+    initAmChart();
+    setupUpload();
+    setupFilters();
+    setupMapDownload();
+    renderTable();
+    updateAnalytics();
+
+    // Автоматически загружаем основной PDF.
+    loadBundledPDF();
 });
 
+async function loadBundledPDF() {
+    const progress = document.getElementById('progressInfo');
+
+    try {
+        progress.textContent = 'Загрузка основного PDF...';
+
+        const response = await fetch('./data/payphones_of_russia.pdf');
+
+        if (!response.ok) {
+            throw new Error(`Не удалось загрузить PDF: HTTP ${response.status}`);
+        }
+
+        const blob = await response.blob();
+
+        const file = new File(
+            [blob],
+            'ayphones_of_russia.pdf',
+            { type: 'application/pdf' }
+        );
+
+        await handleFile(file);
+    } catch (error) {
+        console.error('Ошибка автозагрузки PDF:', error);
+        progress.textContent =
+            'Не удалось загрузить основной PDF. Проверьте файл в папке data/.';
+    }
+}
 function toggleSection(id) {
     const number = String(id).replace('section', '');
     const content = document.getElementById(`content${number}`);
